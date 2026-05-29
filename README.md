@@ -36,7 +36,7 @@ MusicApp/
 
 ## Требования
 
-- [Node.js](https://nodejs.org/) 18+ (рекомендуется LTS)
+- [Node.js](https://nodejs.org/)  (рекомендуется LTS)
 - npm
 
 ## Установка и запуск
