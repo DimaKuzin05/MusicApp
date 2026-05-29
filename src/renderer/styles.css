@@ -1,0 +1,282 @@
+/*
+  ФАЙЛ: src/renderer/styles.css
+  Выравнивание (Flex/Grid) — внешний вид всех UI-компонентов.
+  [Требование] Все компоненты выровнены.
+*/
+/* Выравнивание (Flex/Grid) */
+
+:root {
+    --bg: #0f0f14;
+    --bg-elevated: #1a1a24;
+    --bg-card: #22222f;
+    --accent: #7c5cff;
+    --accent-soft: rgba(124, 92, 255, 0.18);
+    --text: #f4f4f8;
+    --text-muted: #9b9bb0;
+    --border: rgba(255, 255, 255, 0.08);
+    --radius: 14px;
+    --font: "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Flex: корневой контейнер приложения */
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px 20px 0;
+}
+
+.app-shell {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.app-header {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.app-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-header__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), #5c8cff);
+    font-size: 22px;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.app-header__subtitle {
+    margin: 2px 0 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Grid: панель плеера */
+.player-panel {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.now-playing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.now-playing__art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 12px;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    font-size: 42px;
+}
+
+.now-playing__title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.now-playing__artist {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Flex: кнопки управления */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.btn--ghost {
+    width: 44px;
+    height: 44px;
+    background: var(--bg-elevated);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn--primary {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--accent), #5c8cff);
+    color: #fff;
+}
+
+.btn--secondary {
+    width: 52px;
+    height: 52px;
+    background: #3d3d52;
+    color: #fff;
+}
+
+.file-loader {
+    display: flex;
+    justify-content: center;
+}
+
+.btn--add {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--text);
+    border: 1px dashed rgba(124, 92, 255, 0.5);
+    font-weight: 600;
+}
+
+.btn--add:hover {
+    background: rgba(124, 92, 255, 0.28);
+}
+
+/* Flex: громкость */
+.volume {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.volume__label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    min-width: 62px;
+}
+
+.volume__slider {
+    flex: 1;
+}
+
+.volume__value {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    min-width: 36px;
+    text-align: right;
+}
+
+/* Flex: список треков */
+.track-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 0 8px;
+}
+
+.track-list__title {
+    margin: 0 16px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.track-list__items {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0 8px;
+    overflow-y: auto;
+    max-height: 280px;
+}
+
+.track-list__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.track-list__item--active {
+    background: var(--accent-soft);
+}
+
+.track-list__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.track-list__name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.track-list__meta {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.status-bar {
+    margin-top: auto;
+    padding: 12px 0 16px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+}
