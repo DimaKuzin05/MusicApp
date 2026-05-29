@@ -7,13 +7,32 @@
 ## Структура проекта
 
 ```
-MusicApp/
-├── package.json          # Зависимости и npm-скрипты
-├── tsconfig.json         # Настройки компиляции TypeScript → dist/
-├── README.md
+musicApp/
+├── package.json
+├── tsconfig.json
 └── src/
-    ├── main/             # Main-процесс Electron (фон, без DOM)
-    └── renderer/         # Renderer-процесс (интерфейс и логика плеера)
+    ├── main/
+    │   ├── main.ts          # Main-процесс: создание окна + сохранение отчёта при закрытии
+    │   └── settings.ts      # class Config (аналог settings.py)
+    │
+    └── renderer/
+        ├── index.html       # Каркас страницы
+        ├── styles.css       # Выравнивание (Flex/Grid)
+        ├── app.ts           # Точка входа UI: создание 10 объектов, инициализация
+        │
+        ├── core/
+        │   ├── BaseEntity.ts    # Абстрактный класс
+        │   ├── Track.ts         # Сущность: геттеры/сеттеры, сравнение, 3 спец. метода
+        │   └── Collection.ts    # Кастомная коллекция (вместо map/filter)
+        │
+        └── ui/
+            ├── Component.ts     # Базовый UI-класс
+            ├── Header.ts        # UI компонент 1
+            ├── Controls.ts      # UI компонент 2 (Play/Pause/Next/Prev)
+            ├── TrackList.ts     # UI компонент 3 (список треков)
+            ├── VolumeSlider.ts  # UI компонент 4
+            ├── StatusBar.ts     # UI компонент 5
+            └── MainWindow.ts    # Контроллер окна (переопределены 3 метода)
 ```
 
 ---
