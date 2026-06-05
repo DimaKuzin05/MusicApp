@@ -1,8 +1,4 @@
-// =============================================================================
-// ФАЙЛ: src/renderer/core/Track.ts
-// Слой: доменная модель (core)
-// ОТВЕЧАЕТ ЗА: сущность «трек» — данные одной песни
-// =============================================================================
+// ОтвечетЗа: сущность «трек» — данные одной песни
 // Сущность: геттеры/сеттеры, сравнение, 3 спец. метода
 // [Требование] Наследование от абстрактного класса BaseEntity
 // [Требование] Геттеры и сеттеры атрибутов
@@ -25,7 +21,7 @@ export class Track extends BaseEntity {
         this._filePath = filePath;
     }
 
-    // --- [Требование] Геттеры и сеттеры ---
+    // Геттеры и сеттеры
     get id(): number { return this._id; }
     set id(v: number) { this._id = v; }
 
@@ -41,20 +37,17 @@ export class Track extends BaseEntity {
     get filePath(): string { return this._filePath; }
     set filePath(v: string) { this._filePath = v; }
 
-    // --- [Требование] 3 специальных метода ---
+    // 3 специальных метода
     toString(): string {
         return `${this._title} - ${this._artist}`;
     }
-
     toJSON(): object {
         return { id: this._id, title: this._title, artist: this._artist, duration: this._duration, filePath: this._filePath };
     }
-
     valueOf(): number {
         return this._id;
     }
-
-    // --- [Требование] Сравнимость ---
+    // Сравнимость
     compareTo(other: BaseEntity): number {
         return this._id - (other instanceof Track ? other.id : 0);
     }
@@ -63,7 +56,7 @@ export class Track extends BaseEntity {
         return `${this._title} (${this._duration}s)`;
     }
 
-    /** [Требование] @staticmethod — создаёт демо-трек при старте приложения */
+    /** [Требование] @staticmethod  создаёт демо-трек при старте приложения */
     static createDemo(id: number): Track {
         return new Track(id, `Трек ${id}`, `Исполнитель ${id}`, 180 + id * 10);
     }

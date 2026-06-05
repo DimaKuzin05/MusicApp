@@ -1,7 +1,5 @@
-// =============================================================================
-// ФАЙЛ: src/renderer/ui/TrackList.ts
+
 // UI компонент 3 — прокручиваемый список треков плейлиста
-// =============================================================================
 // UI компонент 3 (список треков)
 
 import { UIComponent } from './Component';
@@ -29,7 +27,6 @@ export class TrackList extends UIComponent {
         this.listEl.className = 'track-list__items';
         this.el.appendChild(this.listEl);
     }
-
     /** Заполняет список; подсвечивает активный трек */
     setItems(items: TrackListItem[]): void {
         this.listEl.innerHTML = '';

@@ -1,5 +1,4 @@
-// =============================================================================
-// ФАЙЛ: src/renderer/ui/Controls.ts
+
 // UI компонент 2 — кнопки: Назад, Играть, Пауза, Вперёд
 // Обработчики кликов вешаются в MainWindow.wireControls()
 // =============================================================================
@@ -13,7 +12,7 @@ export class Controls extends UIComponent {
         super('div', 'controls');
     }
 
-    render(): void {
+    render(): void { // ui компонент
         this.el.innerHTML = `
             <button type="button" class="btn btn--ghost" id="prevBtn">Назад</button>
             <button type="button" class="btn btn--primary" id="playBtn">Играть</button>

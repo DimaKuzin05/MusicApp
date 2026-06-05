@@ -1,14 +1,13 @@
-
-
 // Аналог settings.py из задания
 // ОТВЕЧАЕТ ЗА: все настройки приложения в одном месте (класс Config)
-// =============================================================================
 // class Config (аналог settings.py)
 // [Требование] Модуль конфигурации приложения
 
 export class Config {
     static readonly APP_TITLE = 'Music Electron Lab';
-    static readonly REPORT_FILE = 'application_report.txt'; // имя файла отчёта
+    static readonly REPORTS_DIR = 'reports'; // папка отчётов (в проекте или в Документах)
+    static readonly REPORT_FOLDER = 'MusicApp'; // подпапка в «Документы» для собранного .exe
+    static readonly REPORT_FILE = 'application_report.txt'; // последний отчёт в папке reports
     static readonly USER_NAME = 'MusicAppUser'; // login в таблице отчёта
     static readonly TRACKS_COUNT = 10; // [изТЗ] не менее 10 объектов при старте
     static readonly WINDOW_WIDTH = 440;

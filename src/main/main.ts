@@ -1,40 +1,69 @@
-
-// ПРОЦЕСС: Main (Electron) — работает в Node.js, без доступа к DOM
-// ОТВЕЧАЕТ ЗА: запуск приложения, окно, диалог файлов, отчёт при выходе
-// Main-процесс: создание окна + сохранение отчёта при закрытии
+// ПРОЦЕСС: Main (Electron)
+// ОТВЕЧАЕТ ЗА: окно, диалог файлов, сохранение отчётов в папку reports/
 // [Требование] Отчёт .txt при закрытии приложения
 
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { join } from 'path';
-import { existsSync, mkdirSync } from 'fs';
 import { Config } from './settings';
 import { ReportWriter } from './ReportWriter';
 
 let mainWindow: BrowserWindow | null = null;
-let sessionStart: Date | null = null; // время входа для отчёта time_in
-function createWindow(): void { //Создаёт главное окно и загружает HTML из renderer
+let sessionStart: Date | null = null;
+let reportSaved = false;
+
+/** Папка для отчётов: при разработке — MusicApp/reports/, в .exe — Документы/MusicApp/reports/ */
+function getReportsDir(): string {
+    if (!app.isPackaged) {
+        return join(app.getAppPath(), Config.REPORTS_DIR);
+    }
+    return join(app.getPath('documents'), Config.REPORT_FOLDER, Config.REPORTS_DIR);
+}
+
+/** [Требование] Сохранение отчёта в папку reports (один раз за сессию) */
+function saveSessionReport(): void {
+    if (reportSaved) return;
+    reportSaved = true;
+
+    const timeIn = sessionStart ?? new Date();
+    const timeOut = new Date();
+    const reportsDir = getReportsDir();
+
+    const { archivePath, latestPath } = new ReportWriter().saveToFolder(
+        reportsDir,
+        Config.USER_NAME,
+        timeIn,
+        timeOut
+    );
+
+    console.log('Отчёты сохранены в папку:', reportsDir);
+    console.log('  архив сессии:', archivePath);
+    console.log('  последний:   ', latestPath);
+}
+
+function createWindow(): void {
     mainWindow = new BrowserWindow({
         width: Config.WINDOW_WIDTH,
         height: Config.WINDOW_HEIGHT,
         webPreferences: {
-            nodeIntegration: true, // renderer может использовать require('electron')
+            nodeIntegration: true,
             contextIsolation: false,
         },
     });
 
-    // После сборки путь: dist/renderer/index.html
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
     mainWindow.setTitle(Config.APP_TITLE);
+
+    mainWindow.on('close', () => {
+        saveSessionReport();
+    });
 }
 
-// Запуск приложения: запоминаем время начала сессии
 app.whenReady().then(() => {
     sessionStart = new Date();
+    ReportWriter.ensureReportsDir(getReportsDir());
     createWindow();
 });
 
-// [Требование] IPC: renderer вызывает этот обработчик через ipcRenderer.invoke(...)
-// Возвращает массив путей к выбранным mp3/wav и т.д.
 ipcMain.handle('pick-audio-files', async () => {
     if (!mainWindow) return [];
 
@@ -47,14 +76,11 @@ ipcMain.handle('pick-audio-files', async () => {
     return result.canceled ? [] : result.filePaths;
 });
 
-// [Требование] При закрытии — сохранить отчёт в userData/application_report.txt
 app.on('before-quit', () => {
-    const timeIn = sessionStart ?? new Date();
-    const timeOut = new Date();
+    saveSessionReport();
+});
 
-    const appData = app.getPath('userData');
-    if (!existsSync(appData)) mkdirSync(appData, { recursive: true });
-
-    const reportPath = join(appData, Config.REPORT_FILE);
-    new ReportWriter().save(reportPath, Config.USER_NAME, timeIn, timeOut);
+app.on('window-all-closed', () => {
+    saveSessionReport();
+    app.quit();
 });

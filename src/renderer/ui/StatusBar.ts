@@ -16,7 +16,7 @@ export class StatusBar extends UIComponent {
         this.el.textContent = 'Готово';
     }
 
-    update(text: string): void { //** Меняет текст статуса (воспроизведение, пауза, добавление файлов…) */
+    update(text: string): void { //** Меняет текст статуса (воспроизведение, пауза, добавление файлов) */
         this.el.textContent = text;
     }
 }

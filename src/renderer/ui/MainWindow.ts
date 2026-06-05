@@ -1,10 +1,8 @@
-// =============================================================================
-// ФАЙЛ: src/renderer/ui/MainWindow.ts
+
 // Слой: UI — контроллер (собирает все компоненты на экране)
 // ОТВЕЧАЕТ ЗА: разметка окна, воспроизведение, переключение треков
-// =============================================================================
 // Контроллер окна (переопределены 3 метода: init, render, cleanup)
-// [Требование] Переопределены 3 компонента окна
+// [изТЗ] Переопределены 3 компонента окна
 
 import { UIComponent } from './Component';
 import { Header } from './Header';
@@ -108,7 +106,6 @@ export class MainWindow {
             this.selectTrack(0);
         }
     }
-
     /** Выбор трека: обновляет «сейчас играет» и подготавливает audio.src */
     selectTrack(index: number): void {
         const item = this.playlist[index];
@@ -125,7 +122,6 @@ export class MainWindow {
             this.audio.load();
         }
     }
-
     getTrackList(): TrackList {
         return this.list;
     }
